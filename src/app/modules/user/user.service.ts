@@ -4,6 +4,7 @@ import { TLoginUser, TUser } from './user.interface';
 import { User } from './user.model';
 import jwt from 'jsonwebtoken';
 import config from '../../config';
+import bcrypt from 'bcrypt';
 
 const createUserIntoDB = async (userData: TUser) => {
   console.log(userData);
@@ -47,12 +48,26 @@ const loginUser = async (userData: TLoginUser) => {
     throw new AppError(StatusCodes.NOT_FOUND, 'User not found');
   }
 
+  const isBlock = existingUser?.isBlocked;
+
+  if (isBlock) {
+    throw new AppError(StatusCodes.FORBIDDEN, 'This user is blocked ! !');
+  }
+
+  const isPasswordValid = await bcrypt.compare(
+    userData.password,
+    existingUser.password,
+  );
+  if (!isPasswordValid) {
+    throw new AppError(StatusCodes.UNAUTHORIZED, 'Invalid email or password');
+  }
+
   const jwtPayload = {
     email: existingUser.email,
     role: existingUser.role,
   };
   const accessToken = jwt.sign(jwtPayload, config.jwt_access_secret as string, {
-    expiresIn: '10d',
+    expiresIn: '100d',
   });
   return {
     token: accessToken,
