@@ -9,7 +9,13 @@ const blockUser = catchAsync(async (req: Request, res: Response) => {
   const requester = req.tokenUser;
 
   const { userId } = req.params;
-  const result = await AdminServices.blockUSerFromDb(userId, requester);
+  const { runningStatus } = req.body;
+  // console.log(runningStatus);
+  const result = await AdminServices.blockUSerFromDb(
+    userId,
+    requester,
+    runningStatus,
+  );
 
   res.status(StatusCodes.OK).json({
     success: true,

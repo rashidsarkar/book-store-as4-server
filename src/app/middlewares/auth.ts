@@ -11,6 +11,7 @@ import { User } from '../modules/user/user.model';
 const auth = (...requiredRoles: TUserRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const tokenHeader = req.headers.authorization;
+    // console.log(tokenHeader);
 
     // if the token is not provided, return an error
     if (!tokenHeader) {
@@ -21,7 +22,8 @@ const auth = (...requiredRoles: TUserRole[]) => {
     }
 
     // check if token is valid
-    const token = tokenHeader?.split(' ')[1];
+    // const token = tokenHeader?.split(' ')[1];
+    const token = tokenHeader;
 
     const decoded = jwt.verify(
       token,

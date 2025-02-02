@@ -28,6 +28,11 @@ userSchema.statics.isUserExists = async function (email: string) {
   // console.log(user);
   return user;
 };
+// userSchema.statics.isUserExistsByID = async function (email: string) {
+//   const user = await User.findById({ email });
+//   // console.log(user);
+//   return user;
+// };
 userSchema.pre('save', async function (next) {
   // eslint-disable-next-line @typescript-eslint/no-this-alias
   const user = this;

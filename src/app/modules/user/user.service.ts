@@ -2,7 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import AppError from '../../errors/AppError';
 import { TLoginUser, TUser } from './user.interface';
 import { User } from './user.model';
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../../config';
 import bcrypt from 'bcrypt';
 
@@ -80,9 +80,58 @@ const getUserFromDb = async () => {
   }
   return user;
 };
+const getSingleUserFromDb = async (email) => {
+  const user = await User.findOne({ email: email }).select(
+    '_id name email role isBlocked',
+  );
+  if (!user) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'User not found');
+  }
+  return user;
+};
+const getAllUserFromDb = async () => {
+  const user = await User.find().select('_id name email role isBlocked');
+  if (!user) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'User not found');
+  }
+  return user;
+};
 
+const changePassword = async (
+  userData: JwtPayload,
+  payload: { oldPassword: string; newPassword: string },
+) => {
+  // Checking if the user exists
+  const user = await User.findOne({ email: userData.email });
+  if (!user) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'User not found!');
+  }
+
+  if (user.isBlocked) {
+    throw new AppError(StatusCodes.FORBIDDEN, 'This user is blocked!');
+  }
+
+  const isMatch = await bcrypt.compare(payload.oldPassword, user.password);
+  if (!isMatch) {
+    throw new AppError(StatusCodes.FORBIDDEN, 'Incorrect old password!');
+  }
+
+  // const newHashedPassword = await bcrypt.hash(
+  //   payload.newPassword,
+  //   Number(config.bcrypt_salt),
+  // );
+
+  user.password = payload.newPassword;
+
+  await user.save();
+
+  return { message: 'Password updated successfully' };
+};
 export const UserServices = {
   createUserIntoDB,
   loginUser,
   getUserFromDb,
+  changePassword,
+  getSingleUserFromDb,
+  getAllUserFromDb,
 };

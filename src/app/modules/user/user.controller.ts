@@ -24,9 +24,49 @@ const loginUser = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
+const changePassword = catchAsync(async (req, res) => {
+  // console.log(req.tokenUser);
+  console.log(req.body);
+  // res.send()
+  const { oldPassword, newPassword } = req.body;
+  const result = await UserServices.changePassword(req.tokenUser, {
+    oldPassword,
+    newPassword,
+  });
+
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'Password updated successfully!',
+    data: result,
+  });
+});
+
 const getUsers = catchAsync(async (req, res) => {
   // console.log('test', req.tokenUser);
   const result = await UserServices.getUserFromDb();
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'User found',
+    data: result,
+  });
+});
+const getSingleUsers = catchAsync(async (req, res) => {
+  // console.log('test', req.query);
+  const result = await UserServices.getSingleUserFromDb(req.query.email);
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'User found',
+    data: result,
+  });
+});
+const getAllUsers = catchAsync(async (req, res) => {
+  // console.log('test', req.query);
+  // console.log('get all');
+  const result = await UserServices.getAllUserFromDb();
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
@@ -39,4 +79,7 @@ export const UserControllers = {
   createUser,
   loginUser,
   getUsers,
+  changePassword,
+  getSingleUsers,
+  getAllUsers,
 };

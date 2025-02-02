@@ -6,7 +6,11 @@ import { StatusCodes } from 'http-status-codes';
 import { Blog } from '../blog/blog.model';
 import { TUser } from '../user/user.interface';
 
-const blockUSerFromDb = async (id: string, requester: JwtPayload) => {
+const blockUSerFromDb = async (
+  id: string,
+  requester: JwtPayload,
+  currentStatus: boolean,
+) => {
   //   console.log(requester);
   //   console.log(id);
   const user = await User.findById(id);
@@ -14,14 +18,16 @@ const blockUSerFromDb = async (id: string, requester: JwtPayload) => {
   if (!user) {
     throw new AppError(StatusCodes.NOT_FOUND, 'User not found');
   }
-  if (user.isBlocked) {
-    throw new AppError(StatusCodes.FORBIDDEN, 'User Already blocked');
-  }
+  // if (user.isBlocked) {
+  //   throw new AppError(StatusCodes.FORBIDDEN, 'User Already blocked');
+  // }
   if (requester.role !== USER_ROLE.admin) {
     throw new AppError(StatusCodes.FORBIDDEN, 'Only admins can block users');
   }
 
-  const blockUser = await User.findByIdAndUpdate(id, { isBlocked: true });
+  const blockUser = await User.findByIdAndUpdate(id, {
+    isBlocked: !currentStatus,
+  });
 
   return blockUser;
 };

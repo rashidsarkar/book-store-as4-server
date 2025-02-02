@@ -17,7 +17,19 @@ router.post(
   validateRequest(UserValidation.loginValidationSchema),
   UserControllers.loginUser,
 );
-//TODO -  removed this code after test
-router.get('/getAllUser', auth(USER_ROLE.user), UserControllers.getUsers);
+router.patch(
+  '/change-password',
+  auth(USER_ROLE.user, USER_ROLE.admin),
+
+  validateRequest(UserValidation.changePasswordValidationSchema),
+  UserControllers.changePassword,
+);
+
+router.get(
+  '/getSingleUser',
+  auth(USER_ROLE.user, USER_ROLE.admin),
+  UserControllers.getSingleUsers,
+);
+router.get('/getAllUsers', auth(USER_ROLE.admin), UserControllers.getAllUsers);
 export const UserRoutes = router;
 // todo
