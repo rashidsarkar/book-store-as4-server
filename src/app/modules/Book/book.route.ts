@@ -7,12 +7,12 @@ import { BookValidation } from './book.validation';
 
 const router = express.Router();
 
-// router.post(
-//   '/',
-//   auth(USER_ROLE.user),
-//   validateRequest(BookValidation.createBookValidationSchema),
-//   BlogControllers.createBlog,
-// );
+router.post(
+  '/',
+  auth(USER_ROLE.user),
+  validateRequest(BookValidation.createBookValidationSchema),
+  BlogControllers.createBlog,
+);
 // router.patch(
 //   '/:id',
 //   auth(USER_ROLE.user),
