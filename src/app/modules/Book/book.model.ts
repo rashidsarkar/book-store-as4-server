@@ -7,6 +7,10 @@ const bookSchema = new Schema<TBook>(
       type: String,
       required: true,
     },
+    quantity: {
+      type: Number,
+      required: true,
+    },
     image: {
       type: String,
       required: true,

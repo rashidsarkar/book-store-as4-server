@@ -21,7 +21,7 @@ const getAllBookFromDb = async (query: Record<string, unknown>) => {
     .sort();
   console.log(bookAfterFilter);
   const result = await bookAfterFilter.modelQuery.select(
-    '_id name author price image category',
+    '_id name content author quantity image price category',
   );
 
   return result;

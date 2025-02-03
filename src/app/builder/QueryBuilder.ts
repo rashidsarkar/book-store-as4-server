@@ -33,7 +33,7 @@ class QueryBuilder<T> {
       return this;
     }
 
-    this.modelQuery = this.modelQuery.find({ author: queryObj.filter });
+    this.modelQuery = this.modelQuery.find({ category: queryObj.filter });
     return this;
   }
   sort() {

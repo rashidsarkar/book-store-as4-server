@@ -81,16 +81,13 @@ const deleteBlogFromDb = async (id: string, requester: JwtPayload) => {
 const getAllBlogFromDb = async (query: Record<string, unknown>) => {
   const searchAbleFields = ['title', 'content'];
 
-  const blogAfterFilter = new QueryBuilder(
-    Blog.find().populate('author', 'name email'),
-    query,
-  )
+  const blogAfterFilter = new QueryBuilder(Blog.find(), query)
     .search(searchAbleFields)
     .filter()
     .sort();
 
   const result = await blogAfterFilter.modelQuery.select(
-    '_id title content author',
+    '_id name content author quantity image price category',
   );
   return result;
 };

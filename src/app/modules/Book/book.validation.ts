@@ -14,6 +14,11 @@ const createBookValidationSchema = z.object({
         required_error: 'Price is required',
       })
       .positive('Price must be a positive number'),
+    quantity: z
+      .number({
+        required_error: 'Quantity is required',
+      })
+      .positive('Quantity must be a positive number'),
 
     author: z.string({
       required_error: 'Author is required',
@@ -30,6 +35,12 @@ const updateBookValidationSchema = z.object({
       .string({
         required_error: 'Book name is required',
       })
+      .optional(),
+    quantity: z
+      .number({
+        required_error: 'Quantity is required',
+      })
+      .positive('Quantity must be a positive number')
       .optional(),
     image: z
       .string({
