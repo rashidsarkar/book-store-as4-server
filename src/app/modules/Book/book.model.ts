@@ -29,6 +29,13 @@ const bookSchema = new Schema<TBook>(
     },
     category: {
       type: String,
+      enum: [
+        'Romance',
+        'Science Fiction',
+        'Mystery',
+        'Non-Fiction',
+        'Biography',
+      ], // Enforcing category validation
       required: true,
     },
     publicationYear: {

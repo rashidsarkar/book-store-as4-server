@@ -1,4 +1,10 @@
 import { Types } from 'mongoose';
+export type BookCategory =
+  | 'Romance'
+  | 'Science Fiction'
+  | 'Mystery'
+  | 'Non-Fiction'
+  | 'Biography';
 
 export type TBook = {
   name: string;
@@ -7,6 +13,6 @@ export type TBook = {
   quantity: number;
   author: string;
   publicationYear: number;
-  category: string;
+  category: BookCategory;
   description: string;
 };

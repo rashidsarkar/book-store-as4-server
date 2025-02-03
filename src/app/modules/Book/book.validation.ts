@@ -26,9 +26,12 @@ const createBookValidationSchema = z.object({
     author: z.string({
       required_error: 'Author is required',
     }),
-    category: z.string({
-      required_error: 'Category is required',
-    }),
+    category: z.enum(
+      ['Romance', 'Science Fiction', 'Mystery', 'Non-Fiction', 'Biography'],
+      {
+        required_error: 'Category is required',
+      },
+    ),
     publicationYear: z.number({
       required_error: 'Publication Year is required',
     }),
@@ -64,7 +67,14 @@ const updateBookValidationSchema = z.object({
         required_error: 'Author is required',
       })
       .optional(),
-    category: z.string().optional(),
+    category: z
+      .enum(
+        ['Romance', 'Science Fiction', 'Mystery', 'Non-Fiction', 'Biography'],
+        {
+          required_error: 'Category is required',
+        },
+      )
+      .optional(),
     publicationYear: z
       .number({
         required_error: 'Publication Year is required',
