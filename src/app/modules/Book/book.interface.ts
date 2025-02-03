@@ -6,5 +6,6 @@ export type TBook = {
   price: number;
   quantity: number;
   author: string;
+  publicationYear: number;
   category: string;
 };

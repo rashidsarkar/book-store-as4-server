@@ -27,6 +27,10 @@ const bookSchema = new Schema<TBook>(
       type: String,
       required: true,
     },
+    publicationYear: {
+      type: Number,
+      required: true,
+    },
   },
   {
     timestamps: true,

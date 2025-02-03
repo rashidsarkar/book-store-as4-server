@@ -26,6 +26,9 @@ const createBookValidationSchema = z.object({
     category: z.string({
       required_error: 'Category is required',
     }),
+    publicationYear: z.number({
+      required_error: 'Publication Year is required',
+    }),
   }),
 });
 
@@ -54,6 +57,11 @@ const updateBookValidationSchema = z.object({
       })
       .optional(),
     category: z.string().optional(),
+    publicationYear: z
+      .number({
+        required_error: 'Publication Year is required',
+      })
+      .optional(),
   }),
 });
 
