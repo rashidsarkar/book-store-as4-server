@@ -7,13 +7,16 @@ const bookSchema = new Schema<TBook>(
       type: String,
       required: true,
     },
+    image: {
+      type: String,
+      required: true,
+    },
     price: {
       type: Number,
       required: true,
     },
     author: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
+      type: String,
       required: true,
     },
     category: {
@@ -25,4 +28,4 @@ const bookSchema = new Schema<TBook>(
     timestamps: true,
   },
 );
-export const Blog = model<TBook>('Book', bookSchema);
+export const Book = model<TBook>('Book', bookSchema);

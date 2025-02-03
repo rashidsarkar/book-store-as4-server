@@ -2,7 +2,8 @@ import { Types } from 'mongoose';
 
 export type TBook = {
   name: string;
+  image: string;
   price: number;
-  author: Types.ObjectId;
+  author: string;
   category: string;
 };

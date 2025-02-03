@@ -4,14 +4,15 @@ import validateRequest from '../../middlewares/validateRequest';
 import { USER_ROLE } from '../user/user.const';
 import auth from '../../middlewares/auth';
 import { BookValidation } from './book.validation';
+import { BookControllers } from './book.controller';
 
 const router = express.Router();
 
 router.post(
   '/',
-  auth(USER_ROLE.user),
+  auth(USER_ROLE.admin),
   validateRequest(BookValidation.createBookValidationSchema),
-  BlogControllers.createBlog,
+  BookControllers.createBook,
 );
 // router.patch(
 //   '/:id',

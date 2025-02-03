@@ -1,15 +1,22 @@
 import { StatusCodes } from 'http-status-codes';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
+import { BookService } from './book.service';
+import { Request, Response } from 'express';
 
 const createBook = catchAsync(async (req: Request, res: Response) => {
-  const blogData = req.body;
-  const author = req.tokenUser.email;
-  //   const result = await BlogServices.createBlogIntoDb(blogData, author);
+  const bookData = req.body;
+  const bookDataWithModify = {
+    ...bookData,
+    price: Number(bookData.price),
+  };
+  console.log(bookData);
+
+  const result = await BookService.createBookIntoDb(bookData);
   sendResponse(res, {
     statusCode: StatusCodes.CREATED,
     success: true,
-    message: 'Blog created successfully',
+    message: 'Book created successfully',
     data: result,
   });
 });
