@@ -21,6 +21,6 @@ router.post(
 //   BlogControllers.updateBlog,
 // );
 // router.delete('/:id', auth(USER_ROLE.user), BlogControllers.deleteBlog);
-// router.get('/', BlogControllers.getAllBlog);
+router.get('/', BookControllers.getAllBook);
 
 export const BookRoutes = router;

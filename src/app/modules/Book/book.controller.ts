@@ -10,7 +10,7 @@ const createBook = catchAsync(async (req: Request, res: Response) => {
     ...bookData,
     price: Number(bookData.price),
   };
-  console.log(bookData);
+  // console.log(bookData);
 
   const result = await BookService.createBookIntoDb(bookData);
   sendResponse(res, {
@@ -20,6 +20,18 @@ const createBook = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const getAllBook = catchAsync(async (req: Request, res: Response) => {
+  const query = req.query;
+  console.log(query);
+  const result = await BookService.getAllBookFromDb(query);
+  sendResponse(res, {
+    statusCode: StatusCodes.CREATED,
+    success: true,
+    message: 'Book fetched successfully',
+    data: result,
+  });
+});
 export const BookControllers = {
   createBook,
+  getAllBook,
 };
