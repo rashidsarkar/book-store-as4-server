@@ -86,9 +86,11 @@ const getAllBlogFromDb = async (query: Record<string, unknown>) => {
     .filter()
     .sort();
 
+  console.log(blogAfterFilter);
   const result = await blogAfterFilter.modelQuery.select(
-    '_id name content author quantity image price category',
+    '_id name content author quantity image price category description',
   );
+
   return result;
 };
 

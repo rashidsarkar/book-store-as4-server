@@ -22,7 +22,7 @@ const createBook = catchAsync(async (req: Request, res: Response) => {
 });
 const getAllBook = catchAsync(async (req: Request, res: Response) => {
   const query = req.query;
-  console.log(query);
+  // console.log(query);
   const result = await BookService.getAllBookFromDb(query);
   sendResponse(res, {
     statusCode: StatusCodes.CREATED,

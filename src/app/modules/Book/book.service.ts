@@ -19,10 +19,11 @@ const getAllBookFromDb = async (query: Record<string, unknown>) => {
     .search(searchAbleFields)
     .filter()
     .sort();
-  console.log(bookAfterFilter);
+
   const result = await bookAfterFilter.modelQuery.select(
-    '_id name content author quantity image price category',
+    '_id name content author quantity image price category description publicationYear',
   );
+  // console.log('result', result);
 
   return result;
 };
