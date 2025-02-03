@@ -6,6 +6,9 @@ const createBookValidationSchema = z.object({
     name: z.string({
       required_error: 'Book name is required',
     }),
+    description: z.string({
+      required_error: 'Book description is required',
+    }),
     image: z.string({
       required_error: 'Book image is required',
     }),
@@ -37,6 +40,11 @@ const updateBookValidationSchema = z.object({
     name: z
       .string({
         required_error: 'Book name is required',
+      })
+      .optional(),
+    description: z
+      .string({
+        required_error: 'Book description is required',
       })
       .optional(),
     quantity: z

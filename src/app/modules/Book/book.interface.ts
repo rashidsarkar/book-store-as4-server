@@ -8,4 +8,5 @@ export type TBook = {
   author: string;
   publicationYear: number;
   category: string;
+  description: string;
 };
