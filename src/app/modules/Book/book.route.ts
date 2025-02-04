@@ -20,7 +20,7 @@ router.patch(
   validateRequest(BookValidation.updateBookValidationSchema),
   BookControllers.updateBook,
 );
-// router.delete('/:id', auth(USER_ROLE.user), BlogControllers.deleteBlog);
+router.delete('/:id', auth(USER_ROLE.admin), BookControllers.deletedBook);
 router.get('/', BookControllers.getAllBook);
 router.get('/book/:idx', BookControllers.getSingleBook);
 

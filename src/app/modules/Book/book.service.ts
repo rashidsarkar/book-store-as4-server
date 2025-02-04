@@ -47,10 +47,17 @@ const getSingleBookbyId = async (id: string) => {
 
   return blog;
 };
+const deletedBookbyId = async (id: string) => {
+  //   console.log(payload.price);
+  const blog = await Book.findByIdAndDelete(id);
+
+  return blog;
+};
 
 export const BookService = {
   createBookIntoDb,
   getAllBookFromDb,
   updateBookIntoDb,
   getSingleBookbyId,
+  deletedBookbyId,
 };
