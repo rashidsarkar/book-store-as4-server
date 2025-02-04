@@ -14,12 +14,12 @@ router.post(
   validateRequest(BookValidation.createBookValidationSchema),
   BookControllers.createBook,
 );
-// router.patch(
-//   '/:id',
-//   auth(USER_ROLE.user),
-//   validateRequest(BlogValidation.updateBlogValidationSchema),
-//   BlogControllers.updateBlog,
-// );
+router.patch(
+  '/:id',
+  auth(USER_ROLE.admin),
+  validateRequest(BookValidation.updateBookValidationSchema),
+  BookControllers.updateBook,
+);
 // router.delete('/:id', auth(USER_ROLE.user), BlogControllers.deleteBlog);
 router.get('/', BookControllers.getAllBook);
 

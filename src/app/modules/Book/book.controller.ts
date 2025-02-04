@@ -31,7 +31,20 @@ const getAllBook = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const updateBook = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const result = await BookService.updateBookIntoDb(id, req.body);
+
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'Book updated successfully',
+    data: result,
+  });
+});
+
 export const BookControllers = {
   createBook,
   getAllBook,
+  updateBook,
 };

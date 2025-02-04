@@ -1,6 +1,8 @@
+import { StatusCodes } from 'http-status-codes';
 import QueryBuilder from '../../builder/QueryBuilder';
 import { TBook } from './book.interface';
 import { Book } from './book.model';
+import AppError from '../../errors/AppError';
 
 const createBookIntoDb = async (payload: TBook) => {
   const bookData = {
@@ -27,5 +29,21 @@ const getAllBookFromDb = async (query: Record<string, unknown>) => {
 
   return result;
 };
+const updateBookIntoDb = async (id: string, updateData: Partial<TBook>) => {
+  const blog = await Book.findById(id);
+  if (!blog) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'Book not found');
+  }
 
-export const BookService = { createBookIntoDb, getAllBookFromDb };
+  const updatedBlog = await Book.findByIdAndUpdate(id, updateData, {
+    new: true,
+  });
+
+  return updatedBlog;
+};
+
+export const BookService = {
+  createBookIntoDb,
+  getAllBookFromDb,
+  updateBookIntoDb,
+};
