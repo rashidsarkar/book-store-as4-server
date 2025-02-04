@@ -22,5 +22,6 @@ router.patch(
 );
 // router.delete('/:id', auth(USER_ROLE.user), BlogControllers.deleteBlog);
 router.get('/', BookControllers.getAllBook);
+router.get('/book/:idx', BookControllers.getSingleBook);
 
 export const BookRoutes = router;

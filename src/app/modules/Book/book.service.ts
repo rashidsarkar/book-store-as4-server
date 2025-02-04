@@ -41,9 +41,16 @@ const updateBookIntoDb = async (id: string, updateData: Partial<TBook>) => {
 
   return updatedBlog;
 };
+const getSingleBookbyId = async (id: string) => {
+  //   console.log(payload.price);
+  const blog = await Book.findById(id);
+
+  return blog;
+};
 
 export const BookService = {
   createBookIntoDb,
   getAllBookFromDb,
   updateBookIntoDb,
+  getSingleBookbyId,
 };

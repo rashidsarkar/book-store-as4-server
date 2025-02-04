@@ -31,6 +31,18 @@ const getAllBook = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const getSingleBook = catchAsync(async (req: Request, res: Response) => {
+  const { idx } = req.params;
+  // console.log(idx);
+  // console.log(query);
+  const result = await BookService.getSingleBookbyId(idx);
+  sendResponse(res, {
+    statusCode: StatusCodes.CREATED,
+    success: true,
+    message: 'Book fetched successfully',
+    data: result,
+  });
+});
 const updateBook = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const result = await BookService.updateBookIntoDb(id, req.body);
@@ -47,4 +59,5 @@ export const BookControllers = {
   createBook,
   getAllBook,
   updateBook,
+  getSingleBook,
 };
