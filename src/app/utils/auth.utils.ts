@@ -6,3 +6,4 @@ const createToken = (jwtPayload) => {
     expiresIn: '30d',
   });
 };
+console.log(createToken);

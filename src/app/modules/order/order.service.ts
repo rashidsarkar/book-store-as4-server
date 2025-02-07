@@ -1,12 +1,10 @@
 import { Order } from './order.model';
 import { TOrderData } from './order.interface';
-import config from '../../config';
 import stripe from './utils';
 import { Book } from '../Book/book.model';
 import { StatusCodes } from 'http-status-codes';
 import AppError from '../../errors/AppError';
 import { User } from '../user/user.model';
-import { TUser } from '../user/user.interface';
 
 const createOrderIntoDb = async (payload: TOrderData) => {
   try {

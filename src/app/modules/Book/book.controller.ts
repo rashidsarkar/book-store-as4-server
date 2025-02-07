@@ -6,10 +6,7 @@ import { Request, Response } from 'express';
 
 const createBook = catchAsync(async (req: Request, res: Response) => {
   const bookData = req.body;
-  const bookDataWithModify = {
-    ...bookData,
-    price: Number(bookData.price),
-  };
+
   // console.log(bookData);
 
   const result = await BookService.createBookIntoDb(bookData);

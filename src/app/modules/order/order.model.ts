@@ -1,5 +1,4 @@
 import { model, Schema } from 'mongoose';
-import { TBook } from './book.interface';
 import { OrderStatus, TOrderData } from './order.interface';
 
 const orderSchema = new Schema<TOrderData>(

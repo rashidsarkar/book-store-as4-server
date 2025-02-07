@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Types } from 'mongoose';
 
 export enum OrderStatus {
@@ -6,6 +7,7 @@ export enum OrderStatus {
   CANCEL = 'cancel',
   DELIVERED = 'delivered',
 }
+
 export interface TOrderData {
   product: Types.ObjectId;
   quantity: number;
