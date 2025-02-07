@@ -74,23 +74,21 @@ const loginUser = async (userData: TLoginUser) => {
   };
 };
 const getUserFromDb = async () => {
-  const user = await User.find().select('_id name email role');
+  const user = await User.find();
   if (!user) {
     throw new AppError(StatusCodes.NOT_FOUND, 'User not found');
   }
   return user;
 };
 const getSingleUserFromDb = async (email) => {
-  const user = await User.findOne({ email: email }).select(
-    '_id name email role isBlocked',
-  );
+  const user = await User.findOne({ email: email });
   if (!user) {
     throw new AppError(StatusCodes.NOT_FOUND, 'User not found');
   }
   return user;
 };
 const getAllUserFromDb = async () => {
-  const user = await User.find().select('_id name email role isBlocked');
+  const user = await User.find();
   if (!user) {
     throw new AppError(StatusCodes.NOT_FOUND, 'User not found');
   }
@@ -127,6 +125,21 @@ const changePassword = async (
 
   return { message: 'Password updated successfully' };
 };
+const updateUser = async (email: string, userData: TUser) => {
+  const { name, address } = userData;
+
+  const updatedUser = await User.findOneAndUpdate(
+    { email },
+    { name, address },
+    { new: true },
+  );
+
+  if (!updatedUser) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'User not found!');
+  }
+
+  return updatedUser;
+};
 export const UserServices = {
   createUserIntoDB,
   loginUser,
@@ -134,4 +147,5 @@ export const UserServices = {
   changePassword,
   getSingleUserFromDb,
   getAllUserFromDb,
+  updateUser,
 };

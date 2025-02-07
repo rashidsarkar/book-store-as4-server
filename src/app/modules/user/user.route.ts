@@ -31,5 +31,10 @@ router.get(
   UserControllers.getSingleUsers,
 );
 router.get('/getAllUsers', auth(USER_ROLE.admin), UserControllers.getAllUsers);
+router.patch(
+  '/update-user/:email',
+  auth(USER_ROLE.admin, USER_ROLE.user),
+  UserControllers.updatedUsers,
+);
 export const UserRoutes = router;
 // todo

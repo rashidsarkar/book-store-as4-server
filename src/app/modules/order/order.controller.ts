@@ -31,10 +31,47 @@ const createOrderPayment = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const updateOrder = catchAsync(async (req: Request, res: Response) => {
+  // console.log(req.body);
+  const { id } = req.params;
+  const result = await OrderService.updateOrderIntoDb(id, req.body);
+
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'Order updated successfully',
+    data: result,
+  });
+});
+const getAllOrder = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const result = await OrderService.getAllOrderFromDb(id);
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'Order fetched successfully',
+    data: result,
+  });
+});
+const getAllOrderForMe = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const result = await OrderService.getAllOrderForMeFromDb(id);
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'Order fetched successfully',
+    data: result,
+  });
+});
 
 export const OrderControllers = {
   createOrder,
   createOrderPayment,
+  getAllOrderForMe,
+  updateOrder,
+  getAllOrder,
 };
 // const getAllBook = catchAsync(async (req: Request, res: Response) => {
 //   const query = req.query;

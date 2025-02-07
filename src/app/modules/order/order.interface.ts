@@ -14,4 +14,5 @@ export interface TOrderData {
   totalPrice: number;
   transactionId?: string;
   status?: OrderStatus;
+  _id?: string;
 }

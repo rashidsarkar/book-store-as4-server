@@ -3,6 +3,10 @@ import { TOrderData } from './order.interface';
 import config from '../../config';
 import stripe from './utils';
 import { Book } from '../Book/book.model';
+import { StatusCodes } from 'http-status-codes';
+import AppError from '../../errors/AppError';
+import { User } from '../user/user.model';
+import { TUser } from '../user/user.interface';
 
 const createOrderIntoDb = async (payload: TOrderData) => {
   try {
@@ -26,7 +30,7 @@ const createOrderIntoDb = async (payload: TOrderData) => {
     const restBook = await Book.findByIdAndUpdate(payload.product, {
       $inc: { quantity: -quantity },
     });
-    console.log(restBook);
+    // console.log(restBook);
 
     if (!restBook) {
       return { message: 'Product is out of stock' };
@@ -60,8 +64,54 @@ const createOrderPaymentIntoDb = async (payload: TOrderData) => {
   await order.populate(['product', 'userId']);
   return order;
 };
+const updateOrderIntoDb = async (
+  id: string,
+  updateData: Partial<TOrderData>,
+) => {
+  const blog = await Order.findById(id);
+  if (!blog) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'Order not found');
+  }
 
-export const OrderService = { createOrderIntoDb, createOrderPaymentIntoDb };
+  const updatedOrder = await Order.findByIdAndUpdate(id, updateData, {
+    new: true,
+  });
+
+  return updatedOrder;
+};
+const getAllOrderFromDb = async (userEmail: string) => {
+  const user = await User.findOne({ email: userEmail }).select('_id role');
+  if (!user?._id) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'User not found');
+  }
+  // console.log(user.role, 'order service ');
+  if (user?.role !== 'admin') {
+    throw new AppError(
+      StatusCodes.FORBIDDEN,
+      'Only admin can access all orders',
+    );
+  }
+  const orders = await Order.find().populate('product userId');
+  return orders;
+};
+const getAllOrderForMeFromDb = async (userEmail: string) => {
+  const user = await User.findOne({ email: userEmail }).select('_id role');
+  if (!user?._id) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'User not found');
+  }
+
+  const orders = await Order.find({ userId: user._id }).populate(
+    'product userId',
+  );
+  return orders;
+};
+export const OrderService = {
+  createOrderIntoDb,
+  createOrderPaymentIntoDb,
+  updateOrderIntoDb,
+  getAllOrderFromDb,
+  getAllOrderForMeFromDb,
+};
 // const getAllBookFromDb = async (query: Record<string, unknown>) => {
 //   //   console.log(payload.price);
 //   const searchAbleFields = ['name', 'author', 'category'];

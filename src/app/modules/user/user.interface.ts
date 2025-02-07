@@ -8,6 +8,8 @@ export type TUser = {
   password: string;
   role: TUserRole;
   isBlocked: boolean;
+  address?: string;
+  _id?: string;
 };
 export type TLoginUser = {
   email: string;

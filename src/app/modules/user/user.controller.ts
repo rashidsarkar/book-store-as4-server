@@ -74,6 +74,19 @@ const getAllUsers = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const updatedUsers = catchAsync(async (req, res) => {
+  // console.log('test', req.query);
+  // console.log('get all');
+  const { email } = req.params;
+  console.log(email);
+  const result = await UserServices.updateUser(email as string, req.body);
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'User found',
+    data: result,
+  });
+});
 
 export const UserControllers = {
   createUser,
@@ -82,4 +95,5 @@ export const UserControllers = {
   changePassword,
   getSingleUsers,
   getAllUsers,
+  updatedUsers,
 };
