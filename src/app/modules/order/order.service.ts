@@ -1,12 +1,67 @@
 import { Order } from './order.model';
 import { TOrderData } from './order.interface';
+import config from '../../config';
+import stripe from './utils';
+import { Book } from '../Book/book.model';
 
 const createOrderIntoDb = async (payload: TOrderData) => {
-  //   console.log(payload);
-  const order = (await Order.create(payload)).populate('product userId');
+  try {
+    let sentResponseSecret = {};
 
+    // Handle Stripe payment
+    if (payload.paymentMethod === 'stripe') {
+      const amount = Math.round(Number(payload.totalPrice) * 100); // Ensure correct format
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: amount,
+        currency: 'usd',
+        payment_method_types: ['card'],
+      });
+
+      sentResponseSecret = {
+        clientSecret: paymentIntent.client_secret,
+      };
+      return { ...sentResponseSecret };
+    }
+    const quantity = payload.quantity;
+    const restBook = await Book.findByIdAndUpdate(payload.product, {
+      $inc: { quantity: -quantity },
+    });
+    console.log(restBook);
+
+    if (!restBook) {
+      return { message: 'Product is out of stock' };
+    }
+
+    // Save order in DB
+    const order = await Order.create(payload);
+    await order.populate(['product', 'userId']);
+
+    return order;
+
+    // console.log('order', order);
+  } catch (error) {
+    console.error('Order creation failed:', error);
+    throw new Error('Failed to create order');
+  }
+};
+const createOrderPaymentIntoDb = async (payload: TOrderData) => {
+  //   console.log(payload);
+
+  //   console.log(payload.price);
+  const quantity = payload.quantity;
+  const restBook = await Book.findByIdAndUpdate(payload.product, {
+    $inc: { quantity: -quantity },
+  });
+  if (!restBook) {
+    return { message: 'Product is out of stock' };
+  }
+  // console.log(restBook);
+  const order = await Order.create(payload);
+  await order.populate(['product', 'userId']);
   return order;
 };
+
+export const OrderService = { createOrderIntoDb, createOrderPaymentIntoDb };
 // const getAllBookFromDb = async (query: Record<string, unknown>) => {
 //   //   console.log(payload.price);
 //   const searchAbleFields = ['name', 'author', 'category'];
@@ -46,5 +101,3 @@ const createOrderIntoDb = async (payload: TOrderData) => {
 
 //   return blog;
 // };
-
-export const OrderService = { createOrderIntoDb };

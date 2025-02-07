@@ -14,10 +14,28 @@ const createOrder = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: StatusCodes.CREATED,
     success: true,
+    message: 'Secret created successfully',
+    data: result,
+  });
+});
+const createOrderPayment = catchAsync(async (req: Request, res: Response) => {
+  const orderData = req.body;
+
+  //   console.log(orderDataWithModify);
+
+  const result = await OrderService.createOrderPaymentIntoDb(orderData);
+  sendResponse(res, {
+    statusCode: StatusCodes.CREATED,
+    success: true,
     message: 'Order created successfully',
     data: result,
   });
 });
+
+export const OrderControllers = {
+  createOrder,
+  createOrderPayment,
+};
 // const getAllBook = catchAsync(async (req: Request, res: Response) => {
 //   const query = req.query;
 //   // console.log(query);
@@ -63,7 +81,3 @@ const createOrder = catchAsync(async (req: Request, res: Response) => {
 //     data: result,
 //   });
 // });
-
-export const OrderControllers = {
-  createOrder,
-};

@@ -23,6 +23,12 @@ const createOrderValidationSchema = z.object({
         required_error: 'Total Price is required',
       })
       .positive('Price must be a positive number'),
+    transactionId: z.string(),
+    status: z
+      .enum(['pending', 'confirm', 'cancel', 'delivered'])
+      .default('pending')
+      .optional(),
+
     userId: z
       .string({
         required_error: 'User ID is required',
@@ -42,6 +48,10 @@ const updateOrderValidationSchema = z.object({
       .positive('Quantity must be a positive number')
       .optional(),
     userId: z.string().optional(),
+    status: z
+      .enum(['pending', 'confirm', 'cancel', 'delivered'])
+      .default('pending')
+      .optional(),
   }),
 });
 

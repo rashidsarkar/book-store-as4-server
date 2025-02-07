@@ -1,6 +1,6 @@
 import { model, Schema } from 'mongoose';
 import { TBook } from './book.interface';
-import { TOrderData } from './order.interface';
+import { OrderStatus, TOrderData } from './order.interface';
 
 const orderSchema = new Schema<TOrderData>(
   {
@@ -26,6 +26,12 @@ const orderSchema = new Schema<TOrderData>(
     totalPrice: {
       type: Number,
       required: true,
+    },
+    transactionId: { type: String },
+    status: {
+      type: String,
+      enum: Object.values(OrderStatus),
+      default: OrderStatus.PENDING, // Default value set to "pending"
     },
   },
   {
