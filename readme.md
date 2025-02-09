@@ -1,7 +1,3 @@
-Here’s a **README.md** file tailored for your **Book Store API Server** with all the necessary details:
-
----
-
 ## 📚 Book-Store-API-Server
 
 A feature-rich and secure RESTful API for managing books, orders, users, and payments. Built with **Node.js, Express, TypeScript, and MongoDB**, this server powers the **Book Store Web App**, supporting functionalities like book management, order processing, authentication, and payment tracking.
