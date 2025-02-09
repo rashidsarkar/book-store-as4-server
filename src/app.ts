@@ -17,6 +17,7 @@ app.use(
       'http://localhost:5173',
       'http://localhost:5174',
       'https://book-store-client-as4-1l9r.vercel.app',
+      'https://stellar-crisp-4109b2.netlify.app'
     ],
     credentials: true,
   }),
