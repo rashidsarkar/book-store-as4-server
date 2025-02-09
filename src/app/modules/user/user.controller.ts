@@ -53,9 +53,11 @@ const getUsers = catchAsync(async (req, res) => {
     data: result,
   });
 });
-const getSingleUsers = catchAsync(async (req, res) => {
+const getSingleUsers = catchAsync(async (req: Request, res: Response) => {
   // console.log('test', req.query);
-  const result = await UserServices.getSingleUserFromDb(req.query.email);
+  const result = await UserServices.getSingleUserFromDb(
+    req.query.email as string,
+  );
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,

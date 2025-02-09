@@ -80,7 +80,7 @@ const getUserFromDb = async () => {
   }
   return user;
 };
-const getSingleUserFromDb = async (email) => {
+const getSingleUserFromDb = async (email: string) => {
   const user = await User.findOne({ email: email });
   if (!user) {
     throw new AppError(StatusCodes.NOT_FOUND, 'User not found');
